@@ -18,7 +18,7 @@
   hardware.brillo.enable = true;
  
   # Use latest kernel.
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = pkgs.linuxPackages_testing;
 
   environment.variables.EDITOR = "nvim"; 
 
@@ -43,6 +43,8 @@
   networking.networkmanager.enable = true;
 
   programs.hyprland.enable = true;
+  services.hypridle.enable = true;
+  programs.hyprlock.enable = true;
 
   # Enable zram
   zramSwap = {
