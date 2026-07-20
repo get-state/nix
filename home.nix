@@ -70,6 +70,7 @@
     gnupg
     steam
     discord
+    gimp
 
     # nix related
     #
@@ -80,6 +81,10 @@
     btop  # replacement of htop/nmon
     iotop # io monitoring
     iftop # network monitoring
+
+
+    komikku # manga
+    
 
     # system call monitoring
     strace # system call monitoring
@@ -102,6 +107,7 @@
     rofi
     swaybg
     waybar
+    wl-clipboard
     ncmpcpp
     htop
     mpv
@@ -160,9 +166,83 @@
   network.startWhenNeeded = true; # systemd feature: only start MPD service upon connection to its socket
 };
 
-  services.unclutter.enable = true;
+
+  services.mako = {
+    enable = true;
+
+    settings = {
+      anchor = "top-right";
+
+      font = "Iosevka Term NF 13";
+
+      background-color = "#262626e6";
+      text-color = "#e0e0e0";
+      border-color = "#525252";
+
+      border-size = 2;
+      border-radius = 8;
+
+      padding = 20;
+      margin = 20;
+
+      width = 320;
+      height = 110;
+
+      default-timeout = 5000;
+      max-visible = 5;
+
+      icons = true;
+      markup = true;
+
+      layer = "top";
+
+      format = "<b>%s</b>\\n%b";
+
+      # urgency overrides (valid syntax)
+      "urgency=low" = {
+        text-color = "#a7f0ba";
+        border-color = "#a7f0ba";
+        default-timeout = 3000;
+      };
+
+      "urgency=high" = {
+        text-color = "#ffd7d9";
+        border-color = "#ffd7d9";
+        default-timeout = 0;
+      };
+    };
+  };
+
+  services.hypridle.settings = {
+  general = {
+    lock_cmd = "hyprlock";
+    before_sleep_cmd = "loginctl lock-session";
+    after_sleep_cmd = "hyprctl dispatch dpms on";
+    ignore_dbus_inhibit = false;
+  };
+
+  listener = [
+    {
+      timeout = 300; # 5 min
+      on-timeout = "hyprlock";
+    }
+    {
+      timeout = 600; # 10 min
+      on-timeout = "hyprctl dispatch dpms off";
+      on-resume = "hyprctl dispatch dpms on";
+    }
+  ];
+};
+
   programs.carapace.enable = true;
-  programs.nushell.enable = true;
+  programs.nushell = {
+  enable = true;
+  extraConfig = ''
+      $env.config = {
+        edit_mode: vi
+      }
+    '';
+  };
   programs.carapace.enableNushellIntegration = true;
 
   # wayland.windowManager.hyprland.enable = true;

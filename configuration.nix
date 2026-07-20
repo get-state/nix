@@ -13,12 +13,21 @@
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  
+  boot.extraModprobeConfig = ''
+  options snd-hda-intel model=(null),alc287-yoga9-bass-spk-pin
+  '';
+  boot.kernelParams = [
+   "acpi_osi=\"Windows 2022\""
+  ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   hardware.brillo.enable = true;
+
+
  
   # Use latest kernel.
-  boot.kernelPackages = pkgs.linuxPackages_testing;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
 
   environment.variables.EDITOR = "nvim"; 
 
@@ -26,12 +35,12 @@
     pkgs.nushell
   ];
 
-  programs.bash.interactiveShellInit = ''
-    if ! [ "$TERM" = "dumb" ] && [ -z "$BASH_EXECUTION_STRING" ]; then
-      exec nu
-    fi
-  '';
-
+  # programs.bash.interactiveShellInit = ''
+  #   if ! [ "$TERM" = "dumb" ] && [ -z "$BASH_EXECUTION_STRING" ]; then
+  #     exec nu
+  #   fi
+  # '';
+  
   networking.hostName = "TohsakaNode"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
@@ -43,8 +52,8 @@
   networking.networkmanager.enable = true;
 
   programs.hyprland.enable = true;
-  services.hypridle.enable = true;
   programs.hyprlock.enable = true;
+  services.hypridle.enable = true;
 
   # Enable zram
   zramSwap = {
@@ -156,6 +165,7 @@
      brillo
      wireguard-tools
      bibata-cursors
+     hyprlandPlugins.hy3
      git
   ];
 
