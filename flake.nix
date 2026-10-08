@@ -3,10 +3,10 @@
 
   inputs = {
     # NixOS official package source
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/0";
     determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
     home-manager = {
-      url = "github:nix-community/home-manager";
+      url = "https://flakehub.com/f/nix-community/home-manager/0";
       # The `follows` keyword in inputs is used for inheritance.
       # Here, `inputs.nixpkgs` of home-manager is kept consistent with
       # the `inputs.nixpkgs` of the current flake,
@@ -17,6 +17,12 @@
 
   outputs = { self, home-manager, determinate, nixpkgs, ... }@inputs: {
     # Please replace my-nixos with your hostname
+    homeConfigurations.TohsakaNode = inputs.home-manager.lib.homeManagerConfiguration {
+      pkgs = import inputs.nixpkgs {
+        system = "x86_64-linux";
+      };
+    };
+
     nixosConfigurations.TohsakaNode = nixpkgs.lib.nixosSystem {
       specialArgs = { inherit inputs; };
       modules = [

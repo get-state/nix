@@ -50,6 +50,7 @@
 
   # Enable networking
   networking.networkmanager.enable = true;
+  networking.networkmanager.wifi.backend = "iwd";
 
   programs.hyprland.enable = true;
   programs.hyprlock.enable = true;
@@ -64,7 +65,7 @@
 
 
   # Set your time zone.
-  time.timeZone = "Europe/London";
+  time.timeZone = "Asia/Bahrain";
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_GB.UTF-8";
@@ -88,7 +89,8 @@
 
   # Enable ananicy.
   services.ananicy = {
-	enable = true; 
+	enable = true;
+	package = pkgs.ananicy-cpp;
 	rulesProvider = pkgs.ananicy-rules-cachyos;
   };
 
@@ -111,6 +113,12 @@
   # Enable sound with pipewire.
   services.pulseaudio.enable = false;
   security.rtkit.enable = true;
+  
+  xdg.portal = {
+     enable = true;
+     extraPortals = [pkgs.xdg-desktop-portal-hyprland];
+  };
+
   services.pipewire = {
     enable = true;
     alsa.enable = true;

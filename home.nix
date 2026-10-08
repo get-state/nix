@@ -71,12 +71,15 @@
     steam
     discord
     gimp
+    wf-recorder
+    slurp
 
     # nix related
     #
     # it provides the command `nom` works just like `nix`
     # with more details log output
     nix-output-monitor
+    nix-index
 
     btop  # replacement of htop/nmon
     iotop # io monitoring
@@ -84,6 +87,7 @@
 
 
     komikku # manga
+    zathura # manga
     
 
     # system call monitoring
@@ -110,12 +114,15 @@
     wl-clipboard
     ncmpcpp
     htop
+    github-cli
     mpv
     imv
     alsa-tools
     alsa-utils
     ppsspp
     wtype
+    deluge
+    scrcpy
 
   ];
 
@@ -238,9 +245,8 @@
   programs.nushell = {
   enable = true;
   extraConfig = ''
-      $env.config = {
-        edit_mode: vi
-      }
+    $env.config.edit_mode = "vi"
+    $env.config.completions.algorithm = "fuzzy"
     '';
   };
   programs.carapace.enableNushellIntegration = true;
